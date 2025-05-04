@@ -40,4 +40,8 @@ jobs:
       - name: Extract and load orders to raw schema 
         run: |
           python elt/basket_craft_orders_extract_load_raw.py
+
+      - name: Extract and load orders to raw schema 
+        run: |
+          python elt/basket_craft_website_sessions_extract_load_raw.py
  
