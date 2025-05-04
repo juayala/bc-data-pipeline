@@ -1,5 +1,3 @@
--- fct_website_sessions_utm_source_daily.sql
-
 SELECT
   DATE(website_session_created_at) AS website_session_day,
   utm_source,
@@ -10,9 +8,9 @@ SELECT
     2
   ) AS repeat_sessions_pct
 FROM website_sessions
-GROUP BY 
-  DATE(website_session_created_at), 
+GROUP BY
+  DATE(website_session_created_at),
   utm_source
-ORDER BY 
+ORDER BY
   website_session_day,
   utm_source;
