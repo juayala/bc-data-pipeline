@@ -1,4 +1,4 @@
-WITH website_sessions AS (
+WITH raw_website_sessions AS (
    SELECT *
    FROM {{ source('basket_craft', 'website_sessions') }}
 ),
@@ -10,11 +10,11 @@ stg_website_sessions AS (
         is_repeat_session,
         utm_source,
         utm_campaign,
-        utm_content, 
+        utm_content,
         device_type,
         http_referer,
-        CURRENT_TIMESTAMP AS loaded_at -- for auditing and debugging,
-   FROM website_sessions
+        CURRENT_TIMESTAMP AS loaded_at -- for auditing and debugging
+   FROM raw_website_sessions
 )
 SELECT *
 FROM stg_website_sessions
