@@ -1,0 +1,130 @@
+# BC Data Pipeline
+
+## 📖 Project Summary
+
+This repository contains an end-to-end data pipeline that ingests Basket Craft’s `website_sessions` data for December 1–31, 2023, from a MySQL source into a Postgres raw schema, transforms it through staging and warehouse layers with dbt, and surfaces key session metrics in an interactive Looker Studio dashboard. The pipeline is fully automated via GitHub Actions and follows the modular dbt patterns introduced in Lesson Exercises 10, extended here for Quiz 03.
+
+---
+
+## 🗂 Repository Structure
+
+```text
+.
+├── .github/
+│   └── workflows/
+│       └── basket_craft_extract_load_raw.yml      # CI workflow for ELT automation
+├── analyses/                                       # ad-hoc queries & diagrams
+├── elt/                                            # extraction & load scripts
+│   ├── basket_craft_orders_extract_load_raw.py
+│   ├── basket_craft_products_extract_load_raw.py
+│   └── basket_craft_website_sessions_extract_load_raw.py  # Quiz 03 ELT script
+├── logs/                                           # ETL run logs
+├── macros/                                         # custom dbt macros
+│   ├── .gitkeep
+│   └── generate_schema_name.sql
+├── models/                                         # dbt models
+│   ├── marts/
+│   │   └── finance/
+│   │       └── fct_finance_orders_daily.sql
+│   ├── staging/
+│   │   ├── _sources.yml
+│   │   ├── stg_orders.sql
+│   │   ├── stg_products.sql
+│   │   ├── stg_products.yml
+│   │   ├── stg_website_sessions.sql
+│   │   └── stg_website_sessions.yml
+│   └── warehouse/
+│       ├── dim_products.sql
+│       ├── fct_orders_product_daily.sql
+│       └── fct_website_sessions_utm_source_daily.sql
+├── seeds/                                          # dbt seed data (if any)
+├── snapshots/                                      # dbt snapshots
+├── target/                                         # compiled dbt artifacts
+├── tests/                                          # custom dbt tests
+├── .env                                            # local environment variables
+├── .gitignore
+├── dbt_project.yml                                 # dbt project config
+├── README.md                                       # this file
+└── requirements.txt                                # Python dependencies
+```
+
+---
+
+## 📊 Data Pipeline Diagram
+
+![Pipeline Diagram](analyses/pipeline_diagram.png)
+*Illustrates: Extract & Load → Automation → dbt Transform → Looker Studio Visualization*
+
+---
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+
+* Python 3.9+
+* Install dependencies:
+
+  ```bash
+  pip install -r requirements.txt
+  pip install dbt-postgres
+  ```
+* Access to MySQL & Postgres (credentials via `.env` and `~/.dbt/profiles.yml`)
+
+### 2. Extract & Load
+
+1. Store your DB credentials in `.env` or GitHub Secrets.
+2. Run the ELT script locally or let CI run it on a 15-minute cron:
+
+   ```bash
+   python elt/basket_craft_website_sessions_extract_load_raw.py
+   ```
+
+   This writes December 2023 sessions to `raw.website_sessions` in Postgres.
+
+### 3. Automation
+
+The GitHub Actions workflow (`.github/workflows/basket_craft_extract_load_raw.yml`) triggers the ELT Python script every 15 minutes and supports manual dispatch. Ensure all sensitive credentials are in GitHub Secrets.
+
+### 4. Transform with dbt
+
+1. Configure your Postgres connection in `~/.dbt/profiles.yml`.
+2. From the repo root, run:
+
+   ```bash
+   dbt clean
+   dbt run
+   dbt test
+   ```
+3. Model layers:
+
+   * **Staging**: `models/staging/stg_website_sessions.sql` (rename fields, add `loaded_at`)
+   * **Warehouse**: `models/warehouse/fct_website_sessions_utm_source_daily.sql` (daily grain, metrics)
+   * **Marts**: reserved for future analytics marts
+
+### 5. Visualize in Looker Studio
+
+1. Connect to the Postgres warehouse.
+2. Build a dashboard sourcing from `fct_website_sessions_utm_source_daily`:
+
+   * Table: daily sessions
+   * Heatmap: % repeat by UTM source
+   * Scorecard: total sessions vs. prior period
+   * Time series: trend by day
+   * Bar chart: sessions by UTM source
+3. Enable cross-filtering on all except the scorecard.
+4. Set the report to **Unlisted** and paste the link below.
+
+---
+
+## 📎 Dashboard
+
+**Dashboard:** \[Unlisted Looker Studio Link]
+
+---
+
+## 📝 Submission
+
+1. Commit & push all code, configs, workflow, and diagram.
+2. Verify ELT script, dbt models, and dashboard link are present.
+3. Submit the repo link on Brightspace by the deadline.
+
