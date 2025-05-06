@@ -1,3 +1,5 @@
+-- models/warehouse/fct_website_sessions_utm_source_daily.sql
+
 WITH website_sessions AS (
   SELECT
     website_session_id,
