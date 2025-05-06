@@ -30,17 +30,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
-  dbt_basket_craft:
-    staging:
-      path: staging
-      +schema: staging
-      +materialized: view
-    warehouse:
-      path: warehouse
-      +schema: warehouse
-      +materialized: table
-    marts:
-      path: marts
-      +schema: marts
-      +materialized: table
+  staging:
+    +schema: staging
+    +materialized: view
+  warehouse:
+    +schema: warehouse
+    +materialized: table
+  marts:
+    +schema: marts
+    +materialized: table
 
