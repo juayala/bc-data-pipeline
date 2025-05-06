@@ -40,7 +40,7 @@ pg_engine = create_engine(pg_conn_str)
 df = pd.read_sql("SELECT * FROM website_sessions WHERE created_at BETWEEN '2023-12-01' AND '2023-12-31 23:59:59';", mysql_engine)
 # %%
 # Write Dataframe to website_sessions table in Postgres (raw schema)
-df.to_sql('website_sessions', pg_engine, schema='raw', if_exists='replace', index=False)
+df.to_sql('website_sessions', pg_engine, schema='raw', if_exists='append', index=False)
 # %%
 print(f'{len(df)} records loaded into Postgres website_sessions table.')
 # %%

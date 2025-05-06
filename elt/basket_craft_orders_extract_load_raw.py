@@ -40,7 +40,7 @@ pg_engine = create_engine(pg_conn_str)
 df = pd.read_sql('SELECT * FROM orders', mysql_engine)
 # %%
 # Write Dataframe to orders table in Postgres (raw schema)
-df.to_sql('orders', pg_engine, schema='raw', if_exists='replace', index=False)
+df.to_sql('orders', pg_engine, schema='raw', if_exists='append', index=False)
 # %%
 print(f'{len(df)} records loaded into Postgres orders table.')
 # %%
