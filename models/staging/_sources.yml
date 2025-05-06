@@ -31,7 +31,7 @@ sources:
         - name: user_id
         - name: website_session_id
 
-     - name: wesite_sessions
+     - name: website_sessions
        columns:
           - name: website_session_id
             description: Primary key for website sessions
