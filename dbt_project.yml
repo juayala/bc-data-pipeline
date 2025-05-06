@@ -32,12 +32,15 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   dbt_basket_craft:
     staging:
+      path: staging
       +schema: staging
       +materialized: view
     warehouse:
+      path: warehouse
       +schema: warehouse
       +materialized: table
     marts:
+      path: marts
       +schema: marts
       +materialized: table
 
