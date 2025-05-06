@@ -1,3 +1,6 @@
+{{ config(materialized='table') }}
+
+
 WITH fct_website_sessions_utm_source_daily AS (
     SELECT
         DATE(website_session_created_at) AS website_session_day,
