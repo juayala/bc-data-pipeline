@@ -1,0 +1,28 @@
+version: 2
+models:
+ - name: stg_website_sessions
+   description: "Staging model that transforms raw website session data for analytics use"
+   columns:
+     - name: website_session_id
+       description: "Unique identifier for each website session"
+       tests:
+         - unique
+         - not_null
+     - name: user_id
+       description: "ID of the user who initiated the session"
+     - name: is_repeat_session
+       description: "Indicates if this session is a repeat visit (boolean)"
+     - name: utm_source
+       description: "Marketing source (e.g. google, email)"
+     - name: utm_campaign
+       description: "Marketing campaign associated with the session"
+     - name: utm_content
+       description: "Marketing content variation (e.g. banner version)"
+     - name: device_type
+       description: "Device type used during the session (e.g. desktop, mobile)"
+     - name: http_referer
+       description: "Referring URL that brought the user to the website"
+     - name: website_session_created_at
+       description: "Timestamp when the session was originally recorded"
+     - name: loaded_at
+       description: "Timestamp when the session was loaded into the staging model"
