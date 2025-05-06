@@ -11,12 +11,12 @@ profile: 'dbt_basket_craft'
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
-model-paths:    ["dbt_basket_craft/models"]
-analysis-paths: ["dbt_basket_craft/analyses"]
-macro-paths:    ["dbt_basket_craft/macros"]
-test-paths:     ["dbt_basket_craft/tests"]
-seed-paths:     ["dbt_basket_craft/seeds"]
-snapshot-paths: ["dbt_basket_craft/snapshots"]
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
 
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
@@ -30,19 +30,17 @@ clean-targets:         # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
-  staging:
-    path: models/staging
-    +schema: staging
-    +materialized: view
+  dbt_basket_craft:
+    staging:
+      +schema: staging
+      +materialized: view
+    warehouse:
+      +schema: warehouse
+      +materialized: table
+    marts:
+      +schema: marts
+      +materialized: table
 
-  warehouse:
-    path: models/warehouse
-    +schema: warehouse
-    +materialized: table
 
-  marts:
-    path: models/marts
-    +schema: marts
-    +materialized: table
 
 
